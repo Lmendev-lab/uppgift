@@ -1,5 +1,16 @@
 class Task < ApplicationRecord
   belongs_to :category
+
+  validates :title, :description, presence: true
+  validates :title, uniqueness: { case_sensitive: false }
+  validate :due_date_validity
+
+  def due_date_validity
+    return if due_date.blank?
+    return if due_date > Date.today
+
+    errors.add(:due_date, I18n.t('errors.messages.invalid_due_date'))
+  end
 end
 
 # == Schema Information
