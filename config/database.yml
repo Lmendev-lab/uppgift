@@ -22,11 +22,11 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV["DB_USER"] || 'postgres' %>
   password: <%= ENV["DB_PASSWORD"] || 'password' %>
+  host: <%= ENV["DB_HOST"] || "127.0.0.1" %>
 
 development:
   <<: *default
   database: uppgift_development
-  host: <%= ENV["DB_HOST"] || "127.0.0.1" %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
