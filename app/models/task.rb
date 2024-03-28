@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
   belongs_to :category
+  belongs_to :owner, class_name: 'User'
 
   validates :title, :description, presence: true
   validates :title, uniqueness: { case_sensitive: false }
@@ -24,12 +25,15 @@ end
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
+#  owner_id    :bigint
 #
 # Indexes
 #
 #  index_tasks_on_category_id  (category_id)
+#  index_tasks_on_owner_id     (owner_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
+#  fk_rails_...  (owner_id => users.id)
 #
