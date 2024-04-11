@@ -6,7 +6,8 @@ RSpec.describe Task, type: :model do
       title: "Test task",
       description: "Test description",
       due_date: Date.today + 1,
-      category: Category.new(name: "Test category", description: "Test description")
+      category: Category.new(name: "Test category", description: "Test description"),
+      owner: User.new(email: "test@mail.com", password: "123456")
     )
 
     expect(task).to be_valid
@@ -21,18 +22,22 @@ RSpec.describe Task, type: :model do
   it "is invalid without a description"
   it "is invalid with a due date in the past"
   it "is invalid with a duplicate case sensitive title" do
+    current_user = User.create(email: "test@mail.com", password: "123456")
+
     Task.create(
       title: "Test task",
       description: "Test description",
       due_date: Date.today + 1,
-      category: Category.new(name: "Test category", description: "Test description")
+      category: Category.new(name: "Test category", description: "Test description"),
+      owner: current_user
     )
 
     task = Task.new(
       title: "Test task",
       description: "Test description",
       due_date: Date.today + 1,
-      category: Category.new(name: "Test category", description: "Test description")
+      category: Category.new(name: "Test category", description: "Test description"),
+      owner: current_user
     )
 
     task.valid?
