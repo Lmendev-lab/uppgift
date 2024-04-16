@@ -4,7 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  has_many :tasks, dependent: :destroy
+  has_many :owned_tasks, class_name: 'Task', foreign_key: 'owner_id', dependent: :destroy
+  has_many :participations, class_name: 'Participant', dependent: :destroy
+  has_many :tasks, through: :participations
 end
 
 # == Schema Information

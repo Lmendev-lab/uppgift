@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_26_120034) do
+ActiveRecord::Schema.define(version: 2024_04_11_122629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2024_03_26_120034) do
   end
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.integer "role"
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_participants_on_task_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -49,6 +59,8 @@ ActiveRecord::Schema.define(version: 2024_03_26_120034) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "participants", "tasks"
+  add_foreign_key "participants", "users"
   add_foreign_key "tasks", "categories"
   add_foreign_key "tasks", "users", column: "owner_id"
 end
